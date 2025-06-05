@@ -342,7 +342,7 @@ namespace no
                     txtbuscar.AppendText(lectura + Environment.NewLine);
                 }
                 // Cerramos el archivo
-               // fichero.Close();
+               fichero.Close();
             }
 
         }
