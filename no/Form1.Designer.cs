@@ -43,6 +43,7 @@
             this.btnbuscar = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.txtb = new System.Windows.Forms.TextBox();
             this.txtbuscar = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
@@ -64,7 +65,7 @@
             this.btnExcel.BackColor = System.Drawing.Color.SaddleBrown;
             this.btnExcel.Font = new System.Drawing.Font("Microsoft YaHei UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnExcel.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnExcel.Location = new System.Drawing.Point(27, 385);
+            this.btnExcel.Location = new System.Drawing.Point(27, 368);
             this.btnExcel.Name = "btnExcel";
             this.btnExcel.Size = new System.Drawing.Size(114, 43);
             this.btnExcel.TabIndex = 1;
@@ -77,7 +78,7 @@
             this.btnTexto.BackColor = System.Drawing.Color.SaddleBrown;
             this.btnTexto.Font = new System.Drawing.Font("Microsoft YaHei UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTexto.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnTexto.Location = new System.Drawing.Point(204, 385);
+            this.btnTexto.Location = new System.Drawing.Point(204, 368);
             this.btnTexto.Name = "btnTexto";
             this.btnTexto.Size = new System.Drawing.Size(114, 43);
             this.btnTexto.TabIndex = 2;
@@ -185,9 +186,9 @@
             this.btnbuscar.BackColor = System.Drawing.Color.SaddleBrown;
             this.btnbuscar.Font = new System.Drawing.Font("Microsoft YaHei UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnbuscar.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnbuscar.Location = new System.Drawing.Point(638, 345);
+            this.btnbuscar.Location = new System.Drawing.Point(99, 542);
             this.btnbuscar.Name = "btnbuscar";
-            this.btnbuscar.Size = new System.Drawing.Size(150, 38);
+            this.btnbuscar.Size = new System.Drawing.Size(149, 55);
             this.btnbuscar.TabIndex = 12;
             this.btnbuscar.Text = "Buscar Archivo";
             this.btnbuscar.UseVisualStyleBackColor = false;
@@ -207,28 +208,38 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft YaHei UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(368, 335);
+            this.label5.Location = new System.Drawing.Point(73, 449);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(208, 26);
             this.label5.TabIndex = 14;
             this.label5.Text = "Nombre del archivo:";
             // 
+            // txtb
+            // 
+            this.txtb.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtb.Location = new System.Drawing.Point(53, 489);
+            this.txtb.Multiline = true;
+            this.txtb.Name = "txtb";
+            this.txtb.Size = new System.Drawing.Size(248, 31);
+            this.txtb.TabIndex = 15;
+            // 
             // txtbuscar
             // 
             this.txtbuscar.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtbuscar.Location = new System.Drawing.Point(373, 364);
+            this.txtbuscar.Location = new System.Drawing.Point(373, 303);
             this.txtbuscar.Multiline = true;
             this.txtbuscar.Name = "txtbuscar";
-            this.txtbuscar.Size = new System.Drawing.Size(248, 31);
-            this.txtbuscar.TabIndex = 15;
+            this.txtbuscar.Size = new System.Drawing.Size(404, 322);
+            this.txtbuscar.TabIndex = 17;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Tan;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(809, 661);
             this.Controls.Add(this.txtbuscar);
+            this.Controls.Add(this.txtb);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btnbuscar);
@@ -245,6 +256,7 @@
             this.Controls.Add(this.btnExcel);
             this.Controls.Add(this.btnJson);
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
@@ -269,6 +281,7 @@
         private System.Windows.Forms.Button btnbuscar;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtb;
         private System.Windows.Forms.TextBox txtbuscar;
     }
 }

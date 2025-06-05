@@ -28,7 +28,7 @@ namespace no
             lst.Columns.Add("Nombre", -2, HorizontalAlignment.Left);
             string ruta = AppDomain.CurrentDomain.BaseDirectory; // ruta: guarda la ruta del directorio de la app
                          // obtiene la ruta donde está la app
-            DirectoryInfo dir = new DirectoryInfo(ruta); // dir: guarda la informacion n
+            DirectoryInfo dir = new DirectoryInfo(ruta); // dir: guarda la informacion 
 
             // limpia la lista antes de añadir nuevos elementos 
             lst.Items.Clear();
@@ -49,7 +49,7 @@ namespace no
         private void btnJson_Click(object sender, EventArgs e)
         {
             string ruta = AppDomain.CurrentDomain.BaseDirectory; // obtiene la ruta de la carpeta donde está la app
-            DirectoryInfo dir = new DirectoryInfo(ruta); // crea un objeto DirectoryInfo que busca archivos y carpetas dentro de esa ruta
+            DirectoryInfo dir = new DirectoryInfo(ruta); // crea un objeto que busca archivos/carpetas dentro de esa ruta
 
             lst.Items.Clear(); // quita los archivos q no son json
 
@@ -102,16 +102,17 @@ namespace no
                 // lo convierte a una lista de diccionarios 
                 var lista = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(jsonContent);
 
-                if (lista == null || lista.Count == 0)
+                if (lista == null || lista.Count == 0) // si no esta selecciondo el archivo o si esta mal escrito,
+                // tiene una condicional lo que quiere decir que una de esas dos cosas es cierta
                 {
                     MessageBox.Show("El JSON está vacío o mal formado.");
                     return;
                 }
                 // crea un libro de excel
-                var workbook = new ClosedXML.Excel.XLWorkbook();
-                var hoja = workbook.Worksheets.Add("Datos");
+                var workbook = new ClosedXML.Excel.XLWorkbook(); // crea el libro
+                var hoja = workbook.Worksheets.Add("Datos"); // crea la hoja
 
-                // aqui agrega los encabezados
+                // aqui agrega las columnas
                 int col = 1;
                 foreach (var encabezado in lista[0].Keys)
                 {
@@ -130,8 +131,8 @@ namespace no
                     }
                     fila++;
                 }
-                string nuevoArchivo = Path.Combine(ruta, Path.GetFileNameWithoutExtension(fileName) + "_convertido.xlsx");
-                workbook.SaveAs(nuevoArchivo);
+                string nuevoArchivo = Path.Combine(ruta, Path.GetFileNameWithoutExtension(fileName) + "_convertido.xlsx"); // Construimos la ruta completa donde se guardará el nuevo archivo excel, obtiene el nombre sin su extencion
+                workbook.SaveAs(nuevoArchivo); // Escribimos el contenido de 'excel' 
                 MessageBox.Show("Convertido a Excel."); // guardo el archivo con otro nombre
             }
             else if (fileName.EndsWith(".xlsx"))
@@ -150,27 +151,29 @@ namespace no
                 int columnas = rango.ColumnCount();
                 // lee los encabezados
                 List<string> encabezados = new List<string>();
-                for (int c = 1; c <= columnas; c++)
+                for (int c = 1; c <= columnas; c++) //  recorre desde 1 hasta columnas
                 {
-                    encabezados.Add(hoja.Cell(1, c).GetString());
+                    encabezados.Add(hoja.Cell(1, c).GetString()); // lee el contenido de una celda en la fila 1
+                    // y despues lo conviterte a una cadena de texto con el GetString y por ultimo lo guarda el lista encabezados
                 }
                 // lee los datos por fila
                 List<Dictionary<string, string>> lista = new List<Dictionary<string, string>>();
-                for (int f = 2; f <= filas; f++)
+                for (int f = 2; f <= filas; f++) // recorre todas las filas de la hoja de Excel desde la 2
                 {
+                    // diccionario temporal para almacenar los datos de la fila actual
                     Dictionary<string, string> filaDatos = new Dictionary<string, string>();
-                    for (int c = 1; c <= columnas; c++)
+                    for (int c = 1; c <= columnas; c++) //  recorre todas las columnas de la fila actual
                     {
-                        string encabezado = encabezados[c - 1];
-                        string valor = hoja.Cell(f, c).GetString();
-                        filaDatos[encabezado] = valor;
+                        string encabezado = encabezados[c - 1]; // obtenemos el nombre del encabezado que esta en columna actual
+                        string valor = hoja.Cell(f, c).GetString(); // obtenemos valor de la celda en la fila 'f' y columna 'c' y convertimos a string
+                        filaDatos[encabezado] = valor; // luego se añade al diccionario
                     }
-                    lista.Add(filaDatos);
+                    lista.Add(filaDatos); // luego se la agrega fila completa con sus valores
                 }
-                string jsonNuevo = JsonConvert.SerializeObject(lista, Formatting.Indented); // lo convierte a json
-                string nuevoArchivo = Path.Combine(ruta, Path.GetFileNameWithoutExtension(fileName) + "_convertido.json"); // aqui ya lo guardo
-                File.WriteAllText(nuevoArchivo, jsonNuevo);
-                MessageBox.Show("Convertido a JSON.");
+                string jsonNuevo = JsonConvert.SerializeObject(lista, Formatting.Indented);
+                string nuevoArchivo = Path.Combine(ruta, Path.GetFileNameWithoutExtension(fileName) + "_convertido.json"); // Construimos la ruta completa donde se guardará el nuevo archivo JSON, obtiene el nombre sin su extencion
+                File.WriteAllText(nuevoArchivo, jsonNuevo); // Escribimos el contenido de 'jsonNuevo' en un archivo de texto
+                MessageBox.Show("Convertido a JSON."); // Si el archivo no existe, lo crea; si ya existe, lo sobrescribe
             }
             else // si es otro archivo q no sea excel o xlsx
             {
@@ -185,9 +188,7 @@ namespace no
         }
         private void btnar_Click(object sender, EventArgs e)
         {
-            txtNombre.Clear(); // el clear sirve para limpiar las cajas d texto
-            txtMatricula.Clear();  
-            txtCarrera.Clear();
+
         {
             if (lst.SelectedItems.Count == 0) // checa si se selecciono un archivo
             {
@@ -209,20 +210,23 @@ namespace no
                 
             };
 
-            if (fileName.EndsWith(".json")) // aqui lo guarda SOLO si es json
+            if (fileName.EndsWith(".json")) // aqui lo guarda SOLO si el nombre termina con .json
             {
                 // Leer JSON existente
                 List<Alumno> lista;
-                if (File.Exists(fullPath)) // verifica si el archivo especificado por fullPath ya existe 
+                if (File.Exists(fullPath)) // verifica si el archivo especificado por ruta ya existe 
                     {
                     string json = File.ReadAllText(fullPath); // lee todo el contenido del archivo JSON existente como una sola cadena y lo almacena en la variable
                     lista = JsonConvert.DeserializeObject<List<Alumno>>(json) ?? new List<Alumno>();
-                        //  ?? new List<Alumno>() : es un operador de coalescencia de nulos
-                        // si retorna a null creara uno nuevo para evitar que marque errores 
+                        // (convertimos) la cadena JSON 'json' a una lista de objetos de tipo Alumno
+                        // luego intenta leer el JSON y convertirlo en una lista
+                        // devuelve null (por ejemplo, si 'json' está vacío o mal formado),
+                        // entonces se asigna una nueva lista vacía para evitar errores 
                     }
-                    else
-                {
-                    lista = new List<Alumno>();
+                    else // Si no se cumple la condición anterior 
+                         // entonces se inicializa 'lista' como una nueva lista vacía de Alumno.
+                    {
+                        lista = new List<Alumno>();
                 }
 
                 lista.Add(nuevoAlumno); // agrega el registro
@@ -258,10 +262,13 @@ namespace no
                 MessageBox.Show("Archivo no compatible para guardar registro.");
             }
         }
-    }
+            txtNombre.Clear(); // limpia las cajas de texto luego de guardar la informacion
+            txtMatricula.Clear();
+            txtCarrera.Clear();
+        }
         private void btnbuscar_Click(object sender, EventArgs e)
         {
-            string BusquedaArchivo = txtbuscar.Text.Trim(); // obtiene lo q escribimos en el txt
+            string BusquedaArchivo = txtb.Text.Trim(); // obtiene lo q escribimos en el txt
             if (String.IsNullOrEmpty(BusquedaArchivo)) // verifica q si haya texto
             {
                 MessageBox.Show("Ingrese el nombre del archivo que desea buscar. ");
@@ -287,18 +294,57 @@ namespace no
             {
                 MessageBox.Show("No se encontraron archivos que coincidan.");
             }
+            txtb.Clear(); // limpia el txt de busqueda
         }
         private void lst_Click(object sender, EventArgs e)
         {
-            if (lst.SelectedItems.Count == 0) // si no hay nada seleccionado
+            // Limpiamos el TextBox antes de mostrar nuevo contenido
+            txtbuscar.Clear();
+            // Obtenemos la ruta del archivo seleccionado en el ListView
+            string rutaArchivo = lst.SelectedItems[0].Text;
+            // Obtenemos la extensión del archivo y la convertimos a minúsculas para comparación
+            string extension = Path.GetExtension(rutaArchivo).ToLower();
+
+            if (extension == ".xlsx")
             {
-                MessageBox.Show("Selecciona un archivo de la lista."); // muestra este mensaje
-                return;
+                // Si es un archivo Excel (.xlsx)
+                using (var libro = new ClosedXML.Excel.XLWorkbook(rutaArchivo))
+                {
+                    // Seleccionamos la primera hoja del libro
+                    var hoja = libro.Worksheet(1);
+
+                    // Recorremos todas las filas usadas en la hoja
+                    foreach (var fila in hoja.RowsUsed())
+                    {
+                        // Recorremos todas las celdas usadas en cada fila
+                        foreach (var celda in fila.CellsUsed())
+                        {
+                            // Mostramos el valor de la celda en el TextBox, separado por espacio
+                            txtbuscar.AppendText(celda.Value.ToString() + "  ");
+                        }
+                        // Al terminar cada fila, agregamos un salto de línea
+                        txtbuscar.AppendText(Environment.NewLine);
+                    }
+                }
             }
-            // obtiene el nombre del archivo seleccionado
-            string nombreArchivo = lst.SelectedItems[0].Text;
-            // construye la ruta completa del archivo combinando el directorio base y el nombre del archivo
-            string rutaArchivo = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, nombreArchivo);
+            else
+            {
+                // Si es un archivo de texto plano (.txt, .json, etc.)
+                StreamReader fichero = File.OpenText(rutaArchivo);
+                string lectura = "";
+
+                // Mientras no se llegue al final del archivo
+                while (!fichero.EndOfStream)
+                {
+                    // Leemos cada línea del archivo
+                    lectura = fichero.ReadLine();
+                    // se muestra el contenido e ¿n el textvox
+                    txtbuscar.AppendText(lectura + Environment.NewLine);
+                }
+                // Cerramos el archivo
+               // fichero.Close();
+            }
+
         }
     }
 }
